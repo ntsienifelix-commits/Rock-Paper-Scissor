@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SlotRPS - Ultimate Arcade</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- LOADING SCREEN -->
+  <div id="loadingScreen">
+    <h1>NEFELINT GAMES</h1>
+    <div class="loader">
+      <div class="loaderBar"></div>
+    </div>
+    <p id="loadingTip">Loading neural network...</p>
+  </div>
+
+  <!-- MENU SCREEN -->
+  <div id="menuScreen" style="display:none;">
+    <h1>SLOT RPS</h1>
+    <input type="text" id="playerNameInput" placeholder="Enter your name" maxlength="12">
+
+     <label>Choose Character:</label>
+    <div id="characterPreview">
+      <img id="selectedCharBig" src="assets/images/rock.png" alt="Selected">
+    </div>
+    <div id="characterSelect">
+      <img src="player.jpg" data-char="char1" class="charOption" alt="masked">
+      <img src="player2.jpg" data-char="char2" class="charOption" alt="suit">
+      <img src="player3.jpeg" data-char="char3" class="charOption" alt="wildcat">
+    </div>
+
+
+    <div id="betSelect">
+      <h3>Bet Amount</h3>
+      <button class="betBtn selected" data-bet="5">5</button>
+      <button class="betBtn" data-bet="10">10</button>
+      <button class="betBtn" data-bet="20">20</button>
+      <button class="betBtn" data-bet="50">50 🔥</button>
+    </div>
+
+    <div class="menuGrid">
+      <button id="playBtn">PLAY</button>
+      <button id="aboutBtn">ABOUT</button>
+      <button id="historyBtn">HISTORY</button>
+      <button id="leaderboardBtn">LEADERBOARD</button>
+      <button id="achievementsBtn">ACHIEVEMENTS</button>
+      <button id="settingsBtn">SETTINGS</button>
+      <button id="creditsBtn">CREDITS</button>
+    </div>
+  </div>
+
+  <!-- GAME SCREEN -->
+  <div id="gameScreen" style="display:none;">
+    <div id="topHUD">
+      <div>👤 <span id="playerName">Player</span></div>
+      <div>💰 <span id="coins">100</span></div>
+      <div>⚡ Combo: <span id="combo">x1</span></div>
+      <div>
+        <button id="muteBtn">🔊</button>
+        <button id="menuReturnBtn">Menu</button>
+      </div>
+    </div>
+
+    <div id="scoreboard">
+      <div>🏆 Round: <span id="round">1</span></div>
+      <div>👤 You: <span id="playerScore">0</span></div>
+      <div>🤖 CPU: <span id="cpuScore">0</span></div>
+      <div>🔥 Streak: <span id="streak">0</span></div>
+      <div>👑 Best: <span id="highScore">0</span></div>
+    </div>
+
+    <div id="hpBars">
+      <div>
+        <img id="playerAvatar" class="miniAvatar" src="player.jpg" alt="Player">
+        <div class="hpBar"><div id="playerHP"></div></div>
+        <div>HP: <span id="playerHPText">100</span></div>
+      </div>
+      <div>
+        <img id="cpuAvatar" class="miniAvatar" src="player2.jpg" alt="CPU">
+        <div class="hpBar"><div id="cpuHP"></div></div>
+        <div>HP: <span id="cpuHPText">100</span></div>
+      </div>
+    </div>
+
+    <div id="reels">
+      <div class="reel" id="playerReel">❓</div>
+      <div class="reel" id="cpuReel">❓</div>
+    </div>
+
+    <div id="hands">
+      <div id="playerHand">✊</div>
+      <div id="cpuHand">✊</div>
+    </div>
+
+    <div id="result">Choose your move!</div>
+    <div id="comboText"></div>
+
+    <div id="choices">
+      <button class="choiceBtn" data-choice="Rock">✊ ROCK</button>
+      <button class="choiceBtn" data-choice="Paper">✋ PAPER</button>
+      <button class="choiceBtn" data-choice="Scissors">✌️ SCISSORS</button>
+    </div>
+
+    <button id="dailyBonusBtn" style="display:none;">🎁 CLAIM DAILY BONUS</button>
+    <button id="restartBtn" style="display:none;">RESTART</button>
+  </div>
+
+  <!-- ABOUT MODAL -->
+  <div id="aboutModal" class="modal" style="display:none;">
+    <div class="modal-content">
+      <span class="closeBtn" data-modal="aboutModal">&times;</span>
+      <h2>How to Play SlotRPS</h2>
+      <p><strong>Objective:</strong> Reduce CPU HP to 0 before they reduce yours. Each win deals damage, each loss costs HP + coins.</p>
+      <h3>Rules:</h3>
+      <p>Rock beats Scissors | Paper beats Rock | Scissors beats Paper</p>
+      <p><strong>Damage:</strong> Normal win = 20 HP | Boss round = 30 HP | Critical hit = 2x damage</p>
+      <p><strong>Combo:</strong> 3+ wins in a row = x1.5 damage multiplier</p>
+      <p><strong>Boss Rounds:</strong> Every 5th round, CPU is stronger and deals more damage!</p>
+    </div>
+  </div>
+
+  <!-- HISTORY MODAL -->
+  <div id="historyModal" class="modal" style="display:none;">
+    <div class="modal-content">
+      <span class="closeBtn" data-modal="historyModal">&times;</span>
+      <h2>History of Rock Paper Scissors</h2>
+      <p><strong>Origin:</strong> RPS originated in China during the Han Dynasty ~2000 years ago as "shoushiling" - hand command game.</p>
+      <p><strong>Japan:</strong> Called "Jan-ken" and became popular in 17th century. Used by kids to settle disputes.</p>
+      <p><strong>West:</strong> Brought to Europe/US in early 1900s. Now used worldwide for decision making and esports!</p>
+      <p><strong>Fun Fact:</strong> There's a World Rock Paper Scissors Championship with $10,000 prize pool!</p>
+    </div>
+  </div>
+
+  <!-- LEADERBOARD MODAL -->
+  <div id="leaderboardModal" class="modal" style="display:none;">
+    <div class="modal-content">
+      <span class="closeBtn" data-modal="leaderboardModal">&times;</span>
+      <h2>Leaderboard</h2>
+      <table id="leaderboardTable">
+        <thead><tr><th>Rank</th><th>Name</th><th>Best Score</th></tr></thead>
+        <tbody id="leaderboardBody"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- ACHIEVEMENTS MODAL -->
+  <div id="achievementsModal" class="modal" style="display:none;">
+    <div class="modal-content">
+      <span class="closeBtn" data-modal="achievementsModal">&times;</span>
+      <h2>Achievements</h2>
+      <div id="achievementsList"></div>
+    </div>
+  </div>
+
+  <!-- CREDITS MODAL -->
+  <div id="creditsModal" class="modal" style="display:none;">
+    <div class="modal-content">
+      <span class="closeBtn" data-modal="creditsModal">&times;</span>
+      <h2>Credits</h2>
+      <p><strong>Game Design:</strong> FELIX 🔥</p>
+      <p><strong>Code:</strong> FELIX</p>
+      <p><strong>Theme:</strong> Arcade Neon</p>
+      <p>Built with pure HTML5, CSS3, JavaScript + localStorage</p>
+    </div>
+  </div>
+
+  <!-- SETTINGS MODAL -->
+  <div id="settingsModal" class="modal" style="display:none;">
+    <div class="modal-content">
+      <span class="closeBtn" data-modal="settingsModal">&times;</span>
+      <h2>Settings</h2>
+      <label><input type="checkbox" id="soundToggle" checked> Sound Effects</label><br><br>
+      <label><input type="checkbox" id="musicToggle" checked> Background Music</label><br><br>
+      <label><input type="checkbox" id="bossToggle" checked> Boss Rounds Every 5</label><br><br>
+      <label><input type="checkbox" id="critToggle" checked> Critical Hits 10%</label><br><br>
+      <button id="resetDataBtn">Reset All Data</button>
+    </div>
+  </div>
+
+  <!-- AUDIO -->
+<audio id="winSound" src="win.mp3" preload="auto"></audio>
+<audio id="loseSound" src="lose.mp3" preload="auto"></audio>
+<audio id="tieSound" src="tie.mp3" preload="auto"></audio>
+<audio id="bossSound" src="boss.mp3" preload="auto"></audio>
+<audio id="bgMusic" loop src="bgmusic.mp3"></audio>
+
+  <footer>
+   © 2026 FELIX NEFELINT GAMES All rights reserved. SlotRPS v2.0 | Arcade Edition
+  </footer>
+
+  <script src="java.js"></script>
+</body>
+</html>
